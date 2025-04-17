@@ -83,8 +83,6 @@ int main() {
         sum_wx2 += x[i] * x[i] * weight;
         sum_wxy += x[i];      // x[i]*y[i]/y[i] = x[i]
         
-        
-        
     }
 
     double delta = sum_w * sum_wx2 - sum_wx * sum_wx;
