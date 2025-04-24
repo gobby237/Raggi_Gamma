@@ -21,7 +21,7 @@ int main() {
     cout << "Inserisci nome dati: "; 
     cin >> nome; 
 
-    ofstream out("p_value.txt", ios::app); 
+    ofstream out("scarti2Aprile.txt", ios::app); 
 
     ifstream in(nome);
     if (!in.is_open()) {
@@ -36,7 +36,7 @@ int main() {
 
     
     vector<double> o; 
-
+    vector<double> u; 
     vector<double> x;
     vector<double> y;
 
@@ -55,7 +55,8 @@ int main() {
 
     // Lettura e selezione dati
     while (in >> value >> val) {
-    	o.push_back(val); 
+    	o.push_back(val);  // y totali 
+        u.push_back(value); // x totali 
         if ((min1 <= value && value <= max1) || (min2 <= value && value <= max2)) {
             x.push_back(value - 0.5);
             y.push_back(val);
@@ -82,7 +83,6 @@ int main() {
         sum_wy += 1.0;        // y[i]/y[i] = 1
         sum_wx2 += x[i] * x[i] * weight;
         sum_wxy += x[i];      // x[i]*y[i]/y[i] = x[i]
-        
     }
 
     double delta = sum_w * sum_wx2 - sum_wx * sum_wx;
@@ -144,6 +144,12 @@ int main() {
 	
 	cout << "il chi quadro tra 320 335, 390 405 vale: " << chiq << endl; 
 
+    double t = 0; 
+    // cout << "Inserire tempo di acquisizione: ";
+    // cin >> t; 
+
+    // out << chiq << "    " << t << "\n"; 
+
     double x1 = S; 
     double mu = 0; 
     double sigma = sqrt(var_F + var_Y); 
@@ -156,10 +162,48 @@ int main() {
  
     double tempo = 0; 
 
-    cout << "Inserisci tempo di presa del file (min): "; 
-    cin >> tempo; 
+    // cout << "Inserisci tempo di presa del file (min): "; 
+    // cin >> tempo; 
 
-    out << tempo  << "  " << p_value << "\n"; 
+    // out << tempo  << "  " << p_value << "\n"; 
+
+
+    // riempie il file con gli scarti 
+    for (int i = 0; i < u.size(); i ++)
+    {
+       out << u.at(i) << "    " << o.at(i) - (a + b*u.at(i)) << "\n"; 
+    }
+
+
+    // calcolo del centroide tra 340 385 
+
+    double xc = 0; 
+    double N =  0; // totale conteggi gaussiana 
+    double sigmaxc = 0; 
+
+    int i = 0; 
+    for (i = 340; i < 386; i ++ )
+    {
+        N = N + o.at(i); 
+    }
+    
+
+    for (int g = 340; g < 386; g ++ )
+    {
+        xc = xc + (u.at(g)*o.at(g))/N;     
+    }
+
+    for (int g = 340; g < 386; g ++ )
+    {
+        sigmaxc += sqrt(pow(u.at(i) - xc,2)/N);
+    }
+
+    // xc pm sigmaxc 
+
+    cout << "La media della gaussiana e' " << xc << " pm " << sigmaxc << endl; 
+
+
+
 
     return 0;
 }
