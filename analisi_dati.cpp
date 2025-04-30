@@ -202,9 +202,5 @@ int main() {
 
     cout << "La media della gaussiana e' " << xc << " pm " << sigmaxc << endl; 
 
-
-
-
-    
     return 0;
 }
