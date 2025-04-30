@@ -1,2 +1,2 @@
-bin_PROGRAMS = main
-main_SOURCES = main.c
+bin_PROGRAMS = analisi_dati
+analisi_dati_SOURCES = analisi_dati.cpp
